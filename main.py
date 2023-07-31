@@ -61,26 +61,29 @@ test_ds = test_ds.cache().prefetch(buffer_size=AUTOTUNE)
 embedding_dim = 16
 
 
-model = tf.keras.Sequential([
-  layers.Embedding(max_features + 1, embedding_dim),
-  layers.BatchNormalization(),
-  layers.GlobalAveragePooling1D(),
-  layers.Dropout(0.2),
-  layers.Dense(1)])
+if __name__=="__main__":
+  
 
-model.summary()
-
-
-
-model.compile(loss=losses.BinaryCrossentropy(from_logits=True),
-              optimizer='adam',
-              metrics=tf.metrics.BinaryAccuracy(threshold=0.0))
-
-
-epochs = 10
-history = model.fit(
-    train_ds,
-    validation_data=val_ds,
-    epochs=epochs)
+  model = tf.keras.Sequential([
+    layers.Embedding(max_features + 1, embedding_dim),
+    layers.BatchNormalization(),
+    layers.GlobalAveragePooling1D(),
+    layers.Dropout(0.2),
+    layers.Dense(1)])
+  
+  model.summary()
+  
+  
+  
+  model.compile(loss=losses.BinaryCrossentropy(from_logits=True),
+                optimizer='adam',
+                metrics=tf.metrics.BinaryAccuracy(threshold=0.0))
+  
+  
+  epochs = 10
+  history = model.fit(
+      train_ds,
+      validation_data=val_ds,
+      epochs=epochs)
 
 
